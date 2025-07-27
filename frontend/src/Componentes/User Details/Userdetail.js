@@ -40,7 +40,7 @@ function Userdetail() {
   }, []);
 
   const handleViewDetails = (userId) => {
-    navigate(`/user/${userId}`);
+    navigate(`/edituser/${userId}`);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -53,16 +53,16 @@ function Userdetail() {
         <h1>User Details</h1>
         <div className="users-grid">
           {users && users.map((user) => (
-            <div key={user.id} className="user-card">
+            <div key={user._id} className="user-card">
               <h2>{user.name}</h2>
               <div className="user-info">
                 <p><strong>Email:</strong> {user.email}</p>
                 <p><strong>Address:</strong> {user.address}</p>
                 <button 
-                  onClick={() => handleViewDetails(user.id)}
+                  onClick={() => handleViewDetails(user._id)}
                   className="view-details-btn"
                 >
-                  View Full Details
+                  Edit User Details
                 </button>
               </div>
             </div>
