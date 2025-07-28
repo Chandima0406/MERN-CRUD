@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -14,19 +14,26 @@ function Edituser() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchUser = async () => {
-    try {
-      const response = await axios.get(`${URL}/${id}`);
-      setUser(response.data);
-    } catch (error) {
-      setError('Error fetching user data');
-      console.error('Error fetching user data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`${URL}/${id}`);
+        const userData = response.data;
+        console.log("Fetched user data:", userData);
+        if (userData) {
+          setUser({
+            name: userData.name || '',
+            email: userData.email || '',
+            address: userData.address || ''
+          });
+        }
+      } catch (error) {
+        setError('Error fetching user data');
+        console.error('Error fetching user data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchUser();
   }, [id]);
 
@@ -58,7 +65,11 @@ function Edituser() {
                 <input
                     type="text"
                     value={user.name}
-                    onChange={(e) => setUser({ ...user, name: e.target.value })}
+                    onChange={(e) => {
+                        const newValue = e.target.value;
+                        console.log("New name:", newValue);
+                        setUser({ ...user, name: newValue });
+                    }}
                 />
                 </div>
                 <div>
@@ -85,4 +96,4 @@ function Edituser() {
   )
 }
 
-export default Edituser
+export default Edituser;
