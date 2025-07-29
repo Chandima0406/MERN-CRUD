@@ -47,7 +47,7 @@ function Adduser() {
         setMessage('User added successfully!');
         setTimeout(() => {
           setMessage('');
-          history('/');
+          history('/userdetails');
         }, 1500);
       } else {
         throw new Error('Failed to add user');

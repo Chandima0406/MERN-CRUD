@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Nav from '../Nav/Nav'; 
 import axios from 'axios';
+import {useReactToPrint} from 'react-to-print';
 
 const URL = 'http://localhost:5000/users';
 
@@ -43,6 +44,14 @@ function Userdetail() {
     navigate(`/edituser/${userId}`);
   };
 
+  // Print user details
+  const componentRef = React.useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: 'User Details',
+    onAfterPrint: () => console.log('Print successful')
+  });
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
@@ -56,11 +65,14 @@ function Userdetail() {
     }
   };
 
+
+
   return (
     <div>
       <Nav />
-      <div className="user-details-container">
+      <div className="user-details-container" ref={componentRef}>
         <h1>User Details</h1>
+        <button onClick={handlePrint} className="print-btn">Print User Details</button>
         <div className="users-grid">
           {users && users.map((user) => (
             <div key={user._id} className="user-card">
