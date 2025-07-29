@@ -46,6 +46,16 @@ function Userdetail() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
+  // Delete user details
+  const handleDeleteUser = async (userId) => {
+    try {
+      await axios.delete(`${URL}/${userId}`);
+      setUsers(users.filter(user => user._id !== userId));
+    } catch (error) {
+      console.error('Error deleting user:', error);
+    }
+  };
+
   return (
     <div>
       <Nav />
@@ -63,6 +73,12 @@ function Userdetail() {
                   className="view-details-btn"
                 >
                   Edit User Details
+                </button>
+                <button 
+                  onClick={() => handleDeleteUser(user._id)}
+                  className="delete-user-btn"
+                >
+                  Delete User
                 </button>
               </div>
             </div>
